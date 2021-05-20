@@ -63,7 +63,7 @@ function SchoolScreen2({ navigation }) {
 const styles = StyleSheet.create({
     button: {
         width: 250,
-        backgroundColor: "#007aff",
+        backgroundColor: "rgb(98,0,238)",
         marginTop: 75,
         alignSelf: 'center',
     },

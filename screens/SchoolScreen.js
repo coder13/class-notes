@@ -34,15 +34,15 @@ function SchoolScreen({ navigation }) {
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <ScrollView style={{ flex: 1, width: 400, }} >
-          <Button mode="text" uppercase="" onPress={() => console.log("Spring 2021")} labelStyle={styles.buttonText} style={[styles.button, { backgroundColor: theme.buttonColor }]} >
+          <Button mode="text" uppercase="" onPress={() => console.log("Spring 2021")} labelStyle={styles.buttonText} style={styles.button} >
             Spring 2021
           </Button>
 
-          <Button mode="text" uppercase="" onPress={() => console.log("Winter 2021")} labelStyle={styles.buttonText} style={[styles.button, { backgroundColor: theme.buttonColor }]} >
+          <Button mode="text" uppercase="" onPress={() => console.log("Winter 2021")} labelStyle={styles.buttonText} style={styles.button} >
             Winter 2021
           </Button>
 
-          <Button mode="text" uppercase="" onPress={() => console.log("Fall 2020")} labelStyle={styles.buttonText} style={[styles.button, { backgroundColor: theme.buttonColor }]} >
+          <Button mode="text" uppercase="" onPress={() => console.log("Fall 2020")} labelStyle={styles.buttonText} style={styles.button} >
             Fall 2020
           </Button>
         </ScrollView>
@@ -64,8 +64,7 @@ function SchoolScreen({ navigation }) {
 const styles = StyleSheet.create({
   button: {
     width: 250,
-    //backgroundColor: "#007aff",
-    //backgroundColor: 'grey',
+    backgroundColor: "rgb(98,0,238)",
     marginTop: 75,
     alignSelf: 'center',
   },
