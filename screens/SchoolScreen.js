@@ -2,35 +2,15 @@ import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Appbar, FAB, IconButton, Button } from 'react-native-paper';
 import { ThemeContext } from './ThemeController';
+import { SchoolsContext } from './SchoolsProvider';
 
 function SchoolScreen({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
+  const { state } = useContext(SchoolsContext);
 
   return (
     <>
-      <Appbar.Header>
-        <Appbar.Content title="CWU" titleStyle={{ left: 60, fontSize: 35, fontFamily: 'sans-serif', }} />
-        {/* settings button */}
-        <IconButton
-          icon="cog"
-          color="white"
-          onPress={() => navigation.navigate("Settings")}
-          size={30}
-          style={{}}
-        />
-
-        {/* school select button */}
-        <IconButton
-          icon="menu"
-          color="white"
-          onPress={() => navigation.openDrawer()}
-          size={30}
-          style={{ position: 'absolute', left: 0 }}
-        />
-      </Appbar.Header>
-
-
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <ScrollView style={{ flex: 1, width: 400, }} >
