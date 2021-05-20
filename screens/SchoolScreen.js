@@ -1,22 +1,16 @@
-
 import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Appbar, FAB, IconButton, Button } from 'react-native-paper';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
 import { ThemeContext } from './ThemeController';
-
-const Drawer = createDrawerNavigator();
 
 function SchoolScreen({ navigation }) {
 
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext);
 
   return (
     <>
       <Appbar.Header>
         <Appbar.Content title="CWU" titleStyle={{ left: 60, fontSize: 35, fontFamily: 'sans-serif', }} />
-
         {/* settings button */}
         <IconButton
           icon="cog"
@@ -30,24 +24,25 @@ function SchoolScreen({ navigation }) {
         <IconButton
           icon="menu"
           color="white"
-          onPress={() => console.log("Navigate Schools") /*navigation.navigate("School 2")*/}
+          onPress={() => navigation.openDrawer()}
           size={30}
           style={{ position: 'absolute', left: 0 }}
         />
       </Appbar.Header>
 
+
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <ScrollView style={{ flex: 1, width: 400, }} >
-          <Button mode="text" uppercase="" onPress={() => console.log("Spring 2021")} labelStyle={styles.buttonText} style={styles.button} >
+          <Button mode="text" uppercase="" onPress={() => console.log("Spring 2021")} labelStyle={styles.buttonText} style={[styles.button, { backgroundColor: theme.buttonColor }]} >
             Spring 2021
           </Button>
 
-          <Button mode="text" uppercase="" onPress={() => console.log("Winter 2021")} labelStyle={styles.buttonText} style={styles.button} >
+          <Button mode="text" uppercase="" onPress={() => console.log("Winter 2021")} labelStyle={styles.buttonText} style={[styles.button, { backgroundColor: theme.buttonColor }]} >
             Winter 2021
           </Button>
 
-          <Button mode="text" uppercase="" onPress={() => console.log("Fall 2020")} labelStyle={styles.buttonText} style={styles.button} >
+          <Button mode="text" uppercase="" onPress={() => console.log("Fall 2020")} labelStyle={styles.buttonText} style={[styles.button, { backgroundColor: theme.buttonColor }]} >
             Fall 2020
           </Button>
         </ScrollView>
@@ -69,7 +64,8 @@ function SchoolScreen({ navigation }) {
 const styles = StyleSheet.create({
   button: {
     width: 250,
-    backgroundColor: "#007aff",
+    //backgroundColor: "#007aff",
+    //backgroundColor: 'grey',
     marginTop: 75,
     alignSelf: 'center',
   },
