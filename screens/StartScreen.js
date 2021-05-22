@@ -3,63 +3,20 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
-import { Appbar, Title, Caption, Paragraph, Drawer as ReactNativePaperDrawer, Text, TouchableRipple, Switch, } from 'react-native-paper';
+import { Appbar, Drawer as ReactNativePaperDrawer, Text, TouchableRipple, Switch, } from 'react-native-paper';
 
 // components/screens
 import SchoolScreen from "./SchoolScreen";
-import SchoolScreen2 from "./SchoolScreen2";
-import SettingsScreen from "./Settings";
+import TermScreen from "./TermScreen";
+import ClassScreen from "./ClassScreen";
 import EditNoteScreen from "./EditNote";
-import { SchoolsContext } from './SchoolsProvider';
-// import { Header } from 'react-native/Libraries/NewAppScreen';
+import SettingsScreen from "./Settings";
+
+import Header from './Header';
+import DrawerContent from './Drawer';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
-function DrawerContent() {
-    const { state } = useContext(SchoolsContext);
-    console.log(24, state);
-    return (
-        <DrawerContentScrollView>
-            <View>
-                <ReactNativePaperDrawer.Section>
-                    {state.schools.map((school) => (
-                        <DrawerItem key={school.name} label={school.name} />
-                    ))}
-                </ReactNativePaperDrawer.Section>
-            </View>
-        </DrawerContentScrollView>
-    );
-}
-
-function Header({ navigation, previous, scene }) {
-    const { route } = scene;
-
-    return (
-        <Appbar.Header>
-            <Appbar.Action
-                icon="menu"
-                onPress={() => navigation.openDrawer()}
-                size={30}
-            />
-            <Appbar.Content title="CWU" titleStyle={{ left: 60, fontSize: 35, fontFamily: 'sans-serif', }} />
-            {/* settings button */}
-            {route.name === 'Settings' ?
-                <Appbar.BackAction
-                    onPress={() => navigation.navigate("School")}
-                    size={30}
-                />
-            :
-                <Appbar.Action
-                    icon="cog"
-                    onPress={() => navigation.navigate("Settings")}
-                    size={30}
-                />
-            }
-
-        </Appbar.Header>
-    );
-}
 
 const SettingsStackNavigator = () => {
     return (
@@ -80,14 +37,39 @@ const SchoolStackNavigator = () => {
                 header: Header,
             }}
         >
-            <Stack.Screen name="School" component={EditNoteScreen} />
+            <Stack.Screen name="school" component={SchoolScreen} />
+            <Stack.Screen name="term" component={TermStackNavigator} />
         </Stack.Navigator>
     );
+}
 
+const TermStackNavigator = () => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name="term" component={TermScreen} />
+            <Stack.Screen name="class" component={ClassStackNavigator} />
+        </Stack.Navigator>
+    );
+}
+
+const ClassStackNavigator = () => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+            <Stack.Screen name="class" component={ClassScreen} />
+            <Stack.Screen name="editnote" component={EditNoteScreen} />
+        </Stack.Navigator>
+    );
 }
 
 function StartScreen() {
-
     return (
         <NavigationContainer>                
             <Drawer.Navigator
