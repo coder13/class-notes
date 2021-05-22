@@ -4,7 +4,18 @@ const initialState = {
     currentSchool: 'CWU',
     schools: [{
       name: 'CWU',
-      terms: [],
+      terms: [{
+          name: 'Fall',
+          year: 2019,
+          classes: [{
+              code: 'CS 446',
+              lectures: [{
+                  id: 0,
+                  title: 'foo bar',
+                  content: 'lorem ipsum'
+              }]
+          }]
+      }],
     }, {
       name: 'WSU',
       terms: [],

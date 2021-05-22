@@ -9,6 +9,7 @@ import { Appbar, Title, Caption, Paragraph, Drawer as ReactNativePaperDrawer, Te
 import SchoolScreen from "./SchoolScreen";
 import SchoolScreen2 from "./SchoolScreen2";
 import SettingsScreen from "./Settings";
+import EditNoteScreen from "./EditNote";
 import { SchoolsContext } from './SchoolsProvider';
 // import { Header } from 'react-native/Libraries/NewAppScreen';
 
@@ -79,7 +80,7 @@ const SchoolStackNavigator = () => {
                 header: Header,
             }}
         >
-            <Stack.Screen name="School" component={SchoolScreen} />
+            <Stack.Screen name="School" component={EditNoteScreen} />
         </Stack.Navigator>
     );
 

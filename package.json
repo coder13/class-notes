@@ -18,12 +18,17 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-appearance": "^0.3.4",
+    "react-native-ckeditor": "^1.0.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.8.1",
+    "react-native-pell-rich-editor": "^1.7.0",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "^3.0.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-native-webview-bridge": "^0.40.1",
+    "react-native-webview-bridge-updated": "^1.1.1",
+    "react-native-zss-rich-text-editor": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
