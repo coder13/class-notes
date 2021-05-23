@@ -43,28 +43,73 @@ function schoolReducer(state, action) {
                 ]
             }
 
-        /* This logic throws errors when ran. Tried multiple different formats but ran into errors multiple times */
         case 'addTerm':
             return {
                 ...state,
-                schools: {
-                    ...state.schools,
-                    terms: [
-                        ...state.schools.terms,
-                        {
-                            termName: action.payload,
-                            classes: [],
-                        }
-                    ]
-                }
+                schools: state.schools.map((school) => (
+                    action.school === school.name ? {
+                        ...school,
+                        terms: [
+                            ...school.terms,
+                            {
+                                termName: action.termName,
+                                classes: [],
+                            }
+                        ]
+                    } : school
+                ))
             }
 
-        // to be implemented later
-        /*case 'addClass':
-            return {}
+
+        case 'addClass':
+            return {
+                ...state,
+                schools: state.schools.map((school) => (
+                    action.school === school.name ? {
+                        ...school,
+                        terms: school.terms.map((term) => (
+                            action.termName === term.termName ? {
+                                ...term,
+                                classes: [
+                                    ...term.classes,
+                                    {
+                                        code: action.className,
+                                        lectures: [],
+                                    }
+                                ]
+                            } : term
+                        ))
+                    } : school
+                ))
+            }
 
         case 'addLecture':
-            return {}*/
+            return {
+                ...state,
+                schools: state.schools.map((school) => (
+                    action.school === school.name ? {
+                        ...school,
+                        terms: school.terms.map((term) => (
+                            action.termName === term.termName ? {
+                                ...term,
+                                classes: term.classes.map((classes) => (
+                                    action.className === classes.code ? {
+                                        ...classes,
+                                        lectures: [
+                                            ...classes.lectures,
+                                            {
+                                                id: 1,
+                                                title: action.lectureTitle,
+                                                content: 'content'
+                                            }
+                                        ]
+                                    } : classes
+                                ))
+                            } : 'gas'
+                        ))
+                    } : school
+                ))
+            }
 
 
         default:

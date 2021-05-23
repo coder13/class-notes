@@ -8,28 +8,35 @@ import { SchoolsContext } from './SchoolsProvider';
 
 function TermScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  const { state } = useContext(SchoolsContext);
+  const { state, dispatch } = useContext(SchoolsContext);
   const route = useRoute();
-  console.log(route);
+  //console.log(route);
+
+  function addClass(school, termName, className) {
+    dispatch({ type: 'addClass', school, termName, className })
+  }
+
+  //console.log(state);
 
   return (
     <>
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <ScrollView style={{ flex: 1, width: 400, }} >
+        <ScrollView style={{ flex: 1, width: '100%', }} >
+
           <Button mode="text" uppercase="" onPress={() => navigation.navigate("class", {
             screen: 'class',
-            params: { class: 'cs 446' }
+            params: { class: 'CS 446' }
           })} labelStyle={styles.buttonText} style={styles.button} >
             CS 446
           </Button>
         </ScrollView>
 
-        {/* add term button */}
+        {/* add class button */}
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => console.log("Class added")}
+          onPress={() => addClass('CWU', 'Spring 2021', 'CS 380')}
         />
 
       </SafeAreaView>

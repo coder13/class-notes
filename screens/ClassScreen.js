@@ -9,15 +9,21 @@ import { SchoolsContext } from './SchoolsProvider';
 
 function ClassScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  const { state } = useContext(SchoolsContext);
+  const { state, dispatch } = useContext(SchoolsContext);
   const route = useRoute();
-  console.log(route);
+  //console.log(route);
+
+  function addLecture(school, termName, className, lectureTitle) {
+    dispatch({ type: 'addLecture', school, termName, className, lectureTitle })
+  }
+
+  console.log(state);
 
   return (
     <>
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <ScrollView style={{ flex: 1, width: 400, }} >
+        <ScrollView style={{ flex: 1, width: '100%', }} >
           <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
             Lecture 1
           </Button>
@@ -30,7 +36,7 @@ function ClassScreen({ navigation }) {
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => console.log("Note added")}
+          onPress={() => addLecture('CWU', 'Spring 2021', 'CS 446', 'Lecture 3')}
         />
 
       </SafeAreaView>

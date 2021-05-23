@@ -1,27 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
-import { FAB, Button } from 'react-native-paper';
+import { FAB, Button, TextInput } from 'react-native-paper';
+
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
 
-function SchoolScreen({ navigation }) {
+function SchoolScreen({ navigation, variant }) {
 
   const { theme } = useContext(ThemeContext);
   const { state, dispatch } = useContext(SchoolsContext);
+  const curSchool = state.currentSchool;
 
-  function addTerm(termName) {
-    dispatch({ type: 'addTerm', payload: termName })
+  function addTerm(school, termName) {
+    dispatch({ type: 'addTerm', school, termName })
   }
 
-  //console.log(state.schools);
   return (
     <>
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <ScrollView style={{ flex: 1, width: "100%", }} >
 
-          {state.schools.map((schools) => (
-            schools.terms.map((terms) => (
+          {state.schools.map((school) => (
+            school.name === curSchool ? (school.terms.map((terms) => (
               <Button
                 mode="text"
                 uppercase=""
@@ -31,10 +32,10 @@ function SchoolScreen({ navigation }) {
                 // UPDATE onPress TO WORK DYNAMICALLY
                 onPress={() => navigation.navigate("term", {
                   scren: "term",
-                  params: { term: 'spring 2021' }
+                  params: { term: terms.termName }
                 })}
               > {terms.termName} </Button>
-            ))
+            ))) : null
           ))}
 
           {/* Leaving these in for sake of knowing how all buttons connected */}
@@ -79,13 +80,13 @@ function SchoolScreen({ navigation }) {
 
 
 
-
         </ScrollView>
+
         {/* add term button */}
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => console.log("added term") /* addTerm('Winter 2021') */} // the addTerm function does not work
+          onPress={() => addTerm(curSchool, 'Winter 2021')}
         />
 
       </SafeAreaView>
