@@ -1,28 +1,52 @@
 import React, { useContext } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { Appbar, FAB, IconButton, Button } from 'react-native-paper';
+import { StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import { FAB, Button } from 'react-native-paper';
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
 
 function SchoolScreen({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
-  const { state } = useContext(SchoolsContext);
+  const { state, dispatch } = useContext(SchoolsContext);
 
+  function addTerm(termName) {
+    dispatch({ type: 'addTerm', payload: termName })
+  }
+
+  //console.log(state.schools);
   return (
     <>
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <ScrollView style={{ flex: 1, width: 400, }} >
+        <ScrollView style={{ flex: 1, width: "100%", }} >
+
+          {state.schools.map((schools) => (
+            schools.terms.map((terms) => (
+              <Button
+                mode="text"
+                uppercase=""
+                labelStyle={styles.buttonText}
+                style={styles.button}
+                key={terms.termName} label={terms.termName}
+                // UPDATE onPress TO WORK DYNAMICALLY
+                onPress={() => navigation.navigate("term", {
+                  scren: "term",
+                  params: { term: 'spring 2021' }
+                })}
+              > {terms.termName} </Button>
+            ))
+          ))}
+
+          {/* Leaving these in for sake of knowing how all buttons connected */}
+          {/* 
           <Button
             mode="text"
             uppercase=""
             onPress={() => navigation.navigate("term", {
-              screen: "term",
+              scren: "term",
               params: { term: 'spring 2021' }
             })}
-            labelStyle={styles.buttonText}
-            style={styles.button}
+            labelStyle={styles.buttonText} style={styles.button}
           >
             Spring 2021
           </Button>
@@ -31,7 +55,7 @@ function SchoolScreen({ navigation }) {
             mode="text"
             uppercase=""
             onPress={() => navigation.navigate("term", {
-              screen: "term",
+              scren: "term",
               params: { term: 'winter 2021' }
             })}
             labelStyle={styles.buttonText}
@@ -44,29 +68,30 @@ function SchoolScreen({ navigation }) {
             mode="text"
             uppercase=""
             onPress={() => navigation.navigate("term", {
-              screen: "term",
+              scren: "term",
               params: { term: 'fall 2020' }
             })}
             labelStyle={styles.buttonText}
             style={styles.button}
           >
             Fall 2020
-          </Button>
-        </ScrollView>
+          </Button> */}
 
+
+
+
+        </ScrollView>
         {/* add term button */}
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => console.log("Term added")}
+          onPress={() => console.log("added term") /* addTerm('Winter 2021') */} // the addTerm function does not work
         />
 
       </SafeAreaView>
     </>
   );
 } // end TermSelection
-
-// var Drawer = createDrawerNavigator();
 
 const styles = StyleSheet.create({
   button: {
