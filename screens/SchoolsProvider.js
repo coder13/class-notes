@@ -105,7 +105,7 @@ function schoolReducer(state, action) {
                                         ]
                                     } : classes
                                 ))
-                            } : 'gas'
+                            } : term
                         ))
                     } : school
                 ))
