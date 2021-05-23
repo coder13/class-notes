@@ -5,12 +5,6 @@ import { useRoute } from '@react-navigation/native';
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-});
 
 function TermScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
@@ -42,5 +36,30 @@ function TermScreen({ navigation }) {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    width: 250,
+    backgroundColor: "rgb(98,0,238)",
+    marginTop: 75,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    color: "white",
+    fontFamily: "sans-serif",
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  fab: {
+    position: 'absolute',
+    top: 650,
+    right: 20,
+  },
+});
 
 export default TermScreen;
