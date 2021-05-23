@@ -28,7 +28,7 @@ function schoolReducer(state, action) {
         case 'setSchool':
             return {
                 ...state,
-                currentSchool: action.school,
+                currentSchool: action.payload,
             }
 
         case 'addSchool':
@@ -58,6 +58,13 @@ function schoolReducer(state, action) {
                     ]
                 }
             }
+
+        // to be implemented later
+        /*case 'addClass':
+            return {}
+
+        case 'addLecture':
+            return {}*/
 
 
         default:
