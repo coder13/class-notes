@@ -16,6 +16,8 @@ function TermScreen({ navigation }) {
     dispatch({ type: 'addClass', school, termName, className })
   }
 
+  const curSchool = state.currentSchool;
+
   //console.log(state);
 
   return (
@@ -24,12 +26,24 @@ function TermScreen({ navigation }) {
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <ScrollView style={{ flex: 1, width: '100%', }} >
 
-          <Button mode="text" uppercase="" onPress={() => navigation.navigate("class", {
-            screen: 'class',
-            params: { class: 'CS 446' }
-          })} labelStyle={styles.buttonText} style={styles.button} >
-            CS 446
-          </Button>
+          {state.schools.map((school) => (
+            school.name === curSchool ? (school.terms.map((terms) => (
+              terms.classes.map((classes) => (
+                <Button
+                  mode="text"
+                  uppercase=""
+                  onPress={() => navigation.navigate("class", {
+                    screen: 'class',
+                    params: { class: 'CS 446' }
+                  })}
+                  key={classes.code}
+                  label={classes.code}
+                  labelStyle={styles.buttonText}
+                  style={styles.button}
+                > {classes.code} </Button>
+              ))
+            ))) : null
+          ))}
         </ScrollView>
 
         {/* add class button */}

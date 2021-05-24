@@ -17,6 +17,8 @@ function ClassScreen({ navigation }) {
     dispatch({ type: 'addLecture', school, termName, className, lectureTitle })
   }
 
+  const curSchool = state.currentSchool;
+
   console.log(state);
 
   return (
@@ -24,12 +26,33 @@ function ClassScreen({ navigation }) {
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <ScrollView style={{ flex: 1, width: '100%', }} >
+
+          {state.schools.map((school) => (
+            school.name === curSchool ? (school.terms.map((term) => (
+              term.classes.map((classes) => (
+                classes.lectures.map((lecture) => (
+                  <Button
+                    mode="text"
+                    uppercase=""
+                    onPress={() => navigation.navigate("editnote")}
+                    key={lecture.title}
+                    label={lecture.title}
+                    labelStyle={styles.buttonText}
+                    style={styles.button}
+                  > {lecture.title} </Button>
+                ))
+              ))
+            ))) : null
+          ))}
+
+
+          {/* 
           <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
             Lecture 1
           </Button>
           <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
             Lecture 2
-          </Button>
+          </Button>*/}
         </ScrollView>
 
         {/* add term button */}
