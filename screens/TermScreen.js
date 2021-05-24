@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { Appbar, FAB, IconButton, Button } from 'react-native-paper';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View, Modal } from 'react-native';
+import { FAB, Button, TextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
@@ -12,11 +12,22 @@ function TermScreen({ navigation }) {
   const route = useRoute();
   //console.log(route);
 
+  const [text, setText] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const curSchool = state.currentSchool;
+
+
   function addClass(school, termName, className) {
     dispatch({ type: 'addClass', school, termName, className })
   }
 
-  const curSchool = state.currentSchool;
+  const handleClassSubmit = (name) => {
+    setText('');
+    addClass(curSchool, 'Spring 2021', name); // change for better adding
+    setModalVisible(!modalVisible);
+  }
+
+
 
   //console.log(state);
 
@@ -46,11 +57,44 @@ function TermScreen({ navigation }) {
           ))}
         </ScrollView>
 
+        {/* popup for text input */}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
+            animationType='slide'
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(!modalVisible)}
+          >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+              <View style={{ width: 300, height: 100, }} >
+                <TextInput
+                  label="Add New Class"
+                  value={text}
+                  onChangeText={text => setText(text)} />
+                <Button
+                  title='Close'
+                  onPress={() => setModalVisible(!modalVisible)}
+                  labelStyle={{ color: 'white' }}
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
+                  Close</Button>
+                <Button
+                  title='Submit'
+                  onPress={() =>
+                    handleClassSubmit(text)}
+                  labelStyle={{ color: 'white' }}
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
+                  Submit</Button>
+              </View>
+            </View>
+
+          </Modal>
+        </View>
+
         {/* add class button */}
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => addClass('CWU', 'Spring 2021', 'CS 380')}
+          onPress={() => setModalVisible(true)}
         />
 
       </SafeAreaView>

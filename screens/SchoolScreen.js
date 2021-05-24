@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, Text, Modal, View } from 'react-native';
 import { FAB, Button, TextInput } from 'react-native-paper';
 
 import { ThemeContext } from './ThemeController';
@@ -11,9 +11,18 @@ function SchoolScreen({ navigation }) {
   const { state, dispatch } = useContext(SchoolsContext);
   const curSchool = state.currentSchool;
 
+  const [text, setText] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
   function addTerm(school, termName) {
     dispatch({ type: 'addTerm', school, termName })
   }
+
+  const handleTermSubmit = (name) => {
+    setText('');
+    addTerm(curSchool, name);
+    setModalVisible(!modalVisible);
+  };
 
   return (
     <>
@@ -80,13 +89,48 @@ function SchoolScreen({ navigation }) {
 
 
 
+
         </ScrollView>
+
+        {/* popup for text input */}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
+            animationType='slide'
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(!modalVisible)}
+          >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+              <View style={{ width: 300, height: 100, }} >
+                <TextInput
+                  label="Add New Term"
+                  value={text}
+                  onChangeText={text => setText(text)} />
+                <Button
+                  title='Close'
+                  onPress={() => setModalVisible(!modalVisible)}
+                  labelStyle={{ color: 'white' }}
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
+                  Close</Button>
+                <Button
+                  title='Submit'
+                  onPress={() =>
+                    handleTermSubmit(text)}
+                  labelStyle={{ color: 'white' }}
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
+                  Submit</Button>
+              </View>
+            </View>
+
+          </Modal>
+        </View>
+
 
         {/* add term button */}
         <FAB
           style={styles.fab}
           icon="plus"
-          onPress={() => addTerm(curSchool, 'Winter 2021')}
+          onPress={() => setModalVisible(true) /*addTerm(curSchool, 'Winter 2021')*/}
         />
 
       </SafeAreaView>
