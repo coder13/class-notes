@@ -5,7 +5,7 @@ import { FAB, Button, TextInput } from 'react-native-paper';
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
 
-function SchoolScreen({ navigation, variant }) {
+function SchoolScreen({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
   const { state, dispatch } = useContext(SchoolsContext);
