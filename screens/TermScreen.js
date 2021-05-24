@@ -12,6 +12,13 @@ function TermScreen({ navigation }) {
   const route = useRoute();
   //console.log(route);
 
+  // path info
+  const temp = route.params;
+  const temp2 = JSON.stringify(temp);
+  const path = temp2.slice(9, temp2.length - 2);
+  const curTerm = path.slice(path.indexOf('\/') + 1, path.length);
+
+  // modal info
   const [text, setText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const curSchool = state.currentSchool;
@@ -23,13 +30,11 @@ function TermScreen({ navigation }) {
 
   const handleClassSubmit = (name) => {
     setText('');
-    addClass(curSchool, 'Spring 2021', name); // change for better adding
+    addClass(curSchool, curTerm, name); // change for better adding
     setModalVisible(!modalVisible);
   }
 
-
-
-  //console.log(state);
+  console.log(state);
 
   return (
     <>
@@ -45,7 +50,7 @@ function TermScreen({ navigation }) {
                   uppercase=""
                   onPress={() => navigation.navigate("class", {
                     screen: 'class',
-                    params: { class: 'CS 446' }
+                    params: { path: path + '/' + classes.code }
                   })}
                   key={classes.code}
                   label={classes.code}

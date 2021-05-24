@@ -40,8 +40,8 @@ function SchoolScreen({ navigation }) {
                 key={terms.termName} label={terms.termName}
                 // UPDATE onPress TO WORK DYNAMICALLY
                 onPress={() => navigation.navigate("term", {
-                  scren: "term",
-                  params: { term: terms.termName }
+                  screen: "term",
+                  params: { path: curSchool + '/' + terms.termName }
                 })}
               > {terms.termName} </Button>
             ))) : null

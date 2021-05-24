@@ -13,21 +13,29 @@ function ClassScreen({ navigation }) {
   const route = useRoute();
   //console.log(route);
 
-  function addLecture(school, termName, className, lectureTitle) {
-    dispatch({ type: 'addLecture', school, termName, className, lectureTitle })
-  }
+  // path info
+  const temp = route.params;
+  const temp2 = JSON.stringify(temp);
+  const path = temp2.slice(9, temp2.length - 2);
+  const curTerm = path.slice(path.indexOf('\/') + 1, path.lastIndexOf('\/'));
+  const curClass = path.slice(path.lastIndexOf('\/') + 1, path.length);
 
+  // modal info
   const [text, setText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const curSchool = state.currentSchool;
 
+  function addLecture(school, termName, className, lectureTitle) {
+    dispatch({ type: 'addLecture', school, termName, className, lectureTitle })
+  }
+
   const handleLectureSubmit = (name) => {
     setText('');
-    addLecture(curSchool, 'Spring 2021', 'CS 446', name); // change for better adding
+    addLecture(curSchool, curTerm, curClass, name); // change for better adding
     setModalVisible(!modalVisible);
   }
 
-  //console.log(state);
+  console.log(state);
 
   return (
     <>
