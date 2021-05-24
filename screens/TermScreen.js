@@ -34,8 +34,6 @@ function TermScreen({ navigation }) {
     setModalVisible(!modalVisible);
   }
 
-  console.log(state);
-
   return (
     <>
       {/* list of terms with ability to scroll */}
