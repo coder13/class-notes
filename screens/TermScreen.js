@@ -61,7 +61,7 @@ function TermScreen({ navigation }) {
         </ScrollView>
 
         {/* popup for text input */}
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
           <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
             animationType='slide'
             transparent={true}
@@ -125,8 +125,10 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    top: 650,
-    right: 20,
+    bottom: 0,
+    right: 0,
+    marginBottom: 50,
+    marginRight: 10,
   },
 });
 

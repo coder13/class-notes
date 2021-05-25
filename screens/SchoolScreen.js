@@ -28,7 +28,7 @@ function SchoolScreen({ navigation }) {
     <>
       {/* list of terms with ability to scroll */}
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <ScrollView style={{ flex: 1, width: "100%", }} >
+        <ScrollView style={{ flex: 1, width: "100%", height: '100%' }} >
 
           {state.schools.map((school) => (
             school.name === curSchool ? (school.terms.map((terms) => (
@@ -93,7 +93,7 @@ function SchoolScreen({ navigation }) {
         </ScrollView>
 
         {/* popup for text input */}
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
           <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
             animationType='slide'
             transparent={true}
@@ -158,8 +158,10 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    top: 650,
-    right: 20,
+    bottom: 0,
+    right: 0,
+    marginBottom: 50,
+    marginRight: 10,
   },
 });
 
