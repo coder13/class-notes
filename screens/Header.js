@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { Appbar } from 'react-native-paper';
 import { SchoolsContext } from './SchoolsProvider';
 
-function Header({ navigation, previous, scene }) {
+function Header({ navigation, scene }) {
     const { route } = scene;
 
-    const { state, dispatch } = useContext(SchoolsContext);
+    const { state } = useContext(SchoolsContext);
 
     return (
         <Appbar.Header style={{ backgroundColor: "rgb(98,0,238)", }}>

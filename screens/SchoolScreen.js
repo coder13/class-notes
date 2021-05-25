@@ -25,116 +25,114 @@ function SchoolScreen({ navigation }) {
   };
 
   return (
-    <>
-      {/* list of terms with ability to scroll */}
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <ScrollView style={{ flex: 1, width: "100%", height: '100%' }} >
+    /* list of terms with ability to scroll */
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+      <ScrollView style={{ flex: 1, width: "100%", height: '100%' }} >
 
-          {state.schools.map((school) => (
-            school.name === curSchool ? (school.terms.map((terms) => (
+        {state.schools.map((school) => (
+          school.name === curSchool ? (school.terms.map((terms) => (
+            <Button
+              mode="text"
+              uppercase=""
+              labelStyle={styles.buttonText}
+              style={styles.button}
+              key={terms.termName} label={terms.termName}
+              // UPDATE onPress TO WORK DYNAMICALLY
+              onPress={() => navigation.navigate("term", {
+                screen: "term",
+                params: { path: curSchool + '/' + terms.termName }
+              })}
+            > {terms.termName} </Button>
+          ))) : null
+        ))}
+
+        {/* Leaving these in for sake of knowing how all buttons connected */}
+        {/* 
+        <Button
+          mode="text"
+          uppercase=""
+          onPress={() => navigation.navigate("term", {
+            scren: "term",
+            params: { term: 'spring 2021' }
+          })}
+          labelStyle={styles.buttonText} style={styles.button}
+        >
+          Spring 2021
+        </Button>
+
+        <Button
+          mode="text"
+          uppercase=""
+          onPress={() => navigation.navigate("term", {
+            scren: "term",
+            params: { term: 'winter 2021' }
+          })}
+          labelStyle={styles.buttonText}
+          style={styles.button}
+        >
+          Winter 2021
+        </Button>
+
+        <Button
+          mode="text"
+          uppercase=""
+          onPress={() => navigation.navigate("term", {
+            scren: "term",
+            params: { term: 'fall 2020' }
+          })}
+          labelStyle={styles.buttonText}
+          style={styles.button}
+        >
+          Fall 2020
+        </Button> */}
+
+
+
+
+      </ScrollView>
+
+      {/* popup for text input */}
+      <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+        <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
+          animationType='slide'
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+            <View style={{ width: 300, height: 100, }} >
+              <TextInput
+                label="Add New Term"
+                value={text}
+                onChangeText={text => setText(text)} />
               <Button
-                mode="text"
-                uppercase=""
-                labelStyle={styles.buttonText}
-                style={styles.button}
-                key={terms.termName} label={terms.termName}
-                // UPDATE onPress TO WORK DYNAMICALLY
-                onPress={() => navigation.navigate("term", {
-                  screen: "term",
-                  params: { path: curSchool + '/' + terms.termName }
-                })}
-              > {terms.termName} </Button>
-            ))) : null
-          ))}
-
-          {/* Leaving these in for sake of knowing how all buttons connected */}
-          {/* 
-          <Button
-            mode="text"
-            uppercase=""
-            onPress={() => navigation.navigate("term", {
-              scren: "term",
-              params: { term: 'spring 2021' }
-            })}
-            labelStyle={styles.buttonText} style={styles.button}
-          >
-            Spring 2021
-          </Button>
-
-          <Button
-            mode="text"
-            uppercase=""
-            onPress={() => navigation.navigate("term", {
-              scren: "term",
-              params: { term: 'winter 2021' }
-            })}
-            labelStyle={styles.buttonText}
-            style={styles.button}
-          >
-            Winter 2021
-          </Button>
-
-          <Button
-            mode="text"
-            uppercase=""
-            onPress={() => navigation.navigate("term", {
-              scren: "term",
-              params: { term: 'fall 2020' }
-            })}
-            labelStyle={styles.buttonText}
-            style={styles.button}
-          >
-            Fall 2020
-          </Button> */}
-
-
-
-
-        </ScrollView>
-
-        {/* popup for text input */}
-        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-          <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
-            animationType='slide'
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(!modalVisible)}
-          >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-              <View style={{ width: 300, height: 100, }} >
-                <TextInput
-                  label="Add New Term"
-                  value={text}
-                  onChangeText={text => setText(text)} />
-                <Button
-                  title='Close'
-                  onPress={() => setModalVisible(!modalVisible)}
-                  labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
-                  Close</Button>
-                <Button
-                  title='Submit'
-                  onPress={() =>
-                    handleTermSubmit(text)}
-                  labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
-                  Submit</Button>
-              </View>
+                title='Close'
+                onPress={() => setModalVisible(!modalVisible)}
+                labelStyle={{ color: 'white' }}
+                style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
+                Close</Button>
+              <Button
+                title='Submit'
+                onPress={() =>
+                  handleTermSubmit(text)}
+                labelStyle={{ color: 'white' }}
+                style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
+                Submit</Button>
             </View>
+          </View>
 
-          </Modal>
-        </View>
+        </Modal>
+      </View>
 
 
-        {/* add term button */}
-        <FAB
-          style={styles.fab}
-          icon="plus"
-          onPress={() => setModalVisible(true) /*addTerm(curSchool, 'Winter 2021')*/}
-        />
+      {/* add term button */}
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        onPress={() => setModalVisible(true) /*addTerm(curSchool, 'Winter 2021')*/}
+      />
 
-      </SafeAreaView>
-    </>
+    </SafeAreaView>
   );
 } // end TermSelection
 

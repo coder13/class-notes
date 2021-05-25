@@ -22,7 +22,6 @@ function DrawerContent() {
         dispatch({ type: 'setSchool', payload: name });
     }
 
-    //console.log(state);
     return (
         <DrawerContentScrollView>
             <View>

@@ -1,24 +1,9 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-    currentSchool: 'CWU',
-    schools: [{
-        name: 'CWU',
-        terms: [{
-            termName: 'Spring 2021',
-            classes: [{
-                code: 'CS 446',
-                lectures: [{
-                    id: 0,
-                    title: 'foo bar',
-                    content: 'lorem ipsum'
-                }]
-            }]
-        }],
-    }, {
-        name: 'WSU',
-        terms: [],
-    }]
+    currentSchool: '',
+    schools: []
 };
 
 const SchoolsContext = createContext();
@@ -110,7 +95,12 @@ function schoolReducer(state, action) {
                     } : school
                 ))
             }
-
+        case 'setInitialState': 
+            return {
+                ...state,
+                schools: action.schools,
+                currentSchool: action.schools.length ? action.schools[0].name : ''
+            }
 
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
@@ -120,8 +110,42 @@ function schoolReducer(state, action) {
 function SchoolsProvider({ children }) {
     const [state, dispatch] = useReducer(schoolReducer, initialState);
 
+    const loadData = async () => {
+        try {
+            const schools = await AsyncStorage.getItem('@class-notes:schools');
+            dispatch({
+                type: 'setInitialState',
+                schools: schools === null ? [] : JSON.parse(schools),
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const storeData = async () => {
+        try {
+            await AsyncStorage.setItem('@class-notes:schools', JSON.stringify(state.schools));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    // Loads the data on startup and should save on shutdown
+    useEffect(() => {
+        loadData();
+
+        return () => {
+            storeData();
+        };
+    }, []);
+
+    // saves data whenever state changes
+    useEffect(() => {
+        storeData();
+    }, [state]);
+
     return (
-        <SchoolsContext.Provider value={{ state, dispatch }} >
+        <SchoolsContext.Provider value={{ state, dispatch, }} >
             {children}
         </SchoolsContext.Provider>
     )
