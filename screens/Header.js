@@ -7,6 +7,21 @@ function Header({ navigation, scene }) {
 
     const { state } = useContext(SchoolsContext);
 
+    const param = JSON.stringify(route.params);
+
+    let path = '';
+
+    const curSchool = state.currentSchool;
+
+    if (!param) {
+        path = curSchool;
+    }
+
+    else {
+        const temp = param.indexOf("\"path\"");
+        path = param.slice(temp + 8, param.length - 3);
+    }
+
     return (
         <Appbar.Header style={{ backgroundColor: "rgb(98,0,238)", }}>
             <Appbar.Action
@@ -14,7 +29,7 @@ function Header({ navigation, scene }) {
                 onPress={() => navigation.openDrawer()}
                 size={30}
             />
-            <Appbar.Content title={state.currentSchool} titleStyle={{ left: 60, fontSize: 35, fontFamily: 'sans-serif', }} />
+            <Appbar.Content title={path} titleStyle={{ left: 0, fontSize: 25, fontFamily: 'sans-serif', }} />
             {/* settings button */}
             {route.name === 'Settings' ?
                 <Appbar.BackAction

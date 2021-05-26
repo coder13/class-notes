@@ -11,7 +11,9 @@ function DrawerContent() {
 
     const handleSchoolSubmit = (name) => {
         setText('');
-        addSchool(name);
+        if (name != '') {
+            addSchool(name);
+        }
     }
 
     function addSchool(school) {

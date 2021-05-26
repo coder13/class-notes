@@ -2,16 +2,15 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Modal } from 'react-native';
 import { FAB, Button, TextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
+
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
-
 
 
 function ClassScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const { state, dispatch } = useContext(SchoolsContext);
   const route = useRoute();
-  //console.log(route);
 
   // path info
   const temp = route.params;
@@ -31,7 +30,9 @@ function ClassScreen({ navigation }) {
 
   const handleLectureSubmit = (name) => {
     setText('');
-    addLecture(curSchool, curTerm, curClass, name); // change for better adding
+    if (name != '') {
+      addLecture(curSchool, curTerm, curClass, name);
+    }
     setModalVisible(!modalVisible);
   }
 
@@ -43,30 +44,24 @@ function ClassScreen({ navigation }) {
 
           {state.schools.map((school) => (
             school.name === curSchool ? (school.terms.map((term) => (
-              term.classes.map((classes) => (
-                classes.lectures.map((lecture) => (
-                  <Button
-                    mode="text"
-                    uppercase=""
-                    onPress={() => navigation.navigate("editnote")}
-                    key={lecture.title}
-                    label={lecture.title}
-                    labelStyle={styles.buttonText}
-                    style={styles.button}
-                  > {lecture.title} </Button>
-                ))
-              ))
+              term.termName === curTerm ? (
+                term.classes.map((classes) => (
+                  classes.code === curClass ? (
+                    classes.lectures.map((lecture) => (
+                      <Button
+                        mode="text"
+                        uppercase=""
+                        onPress={() => navigation.navigate("editnote")}
+                        key={lecture.title}
+                        label={lecture.title}
+                        labelStyle={styles.buttonText}
+                        style={styles.button}
+                      > {lecture.title} </Button>
+                    ))) : null
+                ))) : null
             ))) : null
           ))}
 
-
-          {/* 
-          <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
-            Lecture 1
-          </Button>
-          <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
-            Lecture 2
-          </Button>*/}
         </ScrollView>
 
         {/* popup for text input */}
@@ -80,7 +75,7 @@ function ClassScreen({ navigation }) {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
               <View style={{ width: 300, height: 100, }} >
                 <TextInput
-                  label="Add New Class"
+                  label="Add New Lecture"
                   value={text}
                   onChangeText={text => setText(text)} />
                 <Button

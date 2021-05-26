@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Modal } from 'react-native';
 import { FAB, Button, TextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
+
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
 
@@ -10,7 +11,6 @@ function TermScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const { state, dispatch } = useContext(SchoolsContext);
   const route = useRoute();
-  //console.log(route);
 
   // path info
   const temp = route.params;
@@ -30,7 +30,9 @@ function TermScreen({ navigation }) {
 
   const handleClassSubmit = (name) => {
     setText('');
-    addClass(curSchool, curTerm, name); // change for better adding
+    if (name != '') {
+      addClass(curSchool, curTerm, name);
+    }
     setModalVisible(!modalVisible);
   }
 
@@ -42,20 +44,21 @@ function TermScreen({ navigation }) {
 
           {state.schools.map((school) => (
             school.name === curSchool ? (school.terms.map((terms) => (
-              terms.classes.map((classes) => (
-                <Button
-                  mode="text"
-                  uppercase=""
-                  onPress={() => navigation.navigate("class", {
-                    screen: 'class',
-                    params: { path: path + '/' + classes.code }
-                  })}
-                  key={classes.code}
-                  label={classes.code}
-                  labelStyle={styles.buttonText}
-                  style={styles.button}
-                > {classes.code} </Button>
-              ))
+              terms.termName === curTerm ? (
+                terms.classes.map((classes) => (
+                  <Button
+                    mode="text"
+                    uppercase=""
+                    onPress={() => navigation.navigate('class', {
+                      screen: 'class',
+                      params: { path: path + '/' + classes.code }
+                    })}
+                    key={classes.code}
+                    label={classes.code}
+                    labelStyle={styles.buttonText}
+                    style={styles.button}
+                  > {classes.code} </Button>
+                ))) : null
             ))) : null
           ))}
         </ScrollView>

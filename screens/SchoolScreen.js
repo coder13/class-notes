@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, Modal, View } from 'react-native';
 import { FAB, Button, TextInput } from 'react-native-paper';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
@@ -14,13 +15,25 @@ function SchoolScreen({ navigation }) {
   const [text, setText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
+  // dropdown info
+  const [seasonOpen, setSeasonOpen] = useState(false);
+  const [seasonValue, setSeasonValue] = useState(null);
+  const [seasonItems, setSeasonItems] = useState([
+    { label: 'Winter', value: 'Winter', },
+    { label: 'Spring', value: 'Spring' },
+    { label: 'Summer', value: 'Summer' },
+    { label: 'Fall', value: 'Fall' },
+  ])
+
   function addTerm(school, termName) {
     dispatch({ type: 'addTerm', school, termName })
   }
 
   const handleTermSubmit = (name) => {
     setText('');
-    addTerm(curSchool, name);
+    if (name != '') {
+      addTerm(curSchool, name);
+    }
     setModalVisible(!modalVisible);
   };
 
@@ -46,49 +59,6 @@ function SchoolScreen({ navigation }) {
           ))) : null
         ))}
 
-        {/* Leaving these in for sake of knowing how all buttons connected */}
-        {/* 
-        <Button
-          mode="text"
-          uppercase=""
-          onPress={() => navigation.navigate("term", {
-            scren: "term",
-            params: { term: 'spring 2021' }
-          })}
-          labelStyle={styles.buttonText} style={styles.button}
-        >
-          Spring 2021
-        </Button>
-
-        <Button
-          mode="text"
-          uppercase=""
-          onPress={() => navigation.navigate("term", {
-            scren: "term",
-            params: { term: 'winter 2021' }
-          })}
-          labelStyle={styles.buttonText}
-          style={styles.button}
-        >
-          Winter 2021
-        </Button>
-
-        <Button
-          mode="text"
-          uppercase=""
-          onPress={() => navigation.navigate("term", {
-            scren: "term",
-            params: { term: 'fall 2020' }
-          })}
-          labelStyle={styles.buttonText}
-          style={styles.button}
-        >
-          Fall 2020
-        </Button> */}
-
-
-
-
       </ScrollView>
 
       {/* popup for text input */}
@@ -101,6 +71,17 @@ function SchoolScreen({ navigation }) {
         >
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
             <View style={{ width: 300, height: 100, }} >
+              {/* 
+              <DropDownPicker
+                open={seasonOpen}
+                onPress={() => setSeasonOpen(!seasonOpen)}
+                items={seasonItems}
+                value={seasonValue}
+                onChangeValue={seasonValue => setSeasonValue(seasonValue)}
+                setValue={seasonValue => setSeasonValue(seasonValue)}
+                closeAfterSelecting={true}
+                placeholder="Season"
+              />*/}
               <TextInput
                 label="Add New Term"
                 value={text}
