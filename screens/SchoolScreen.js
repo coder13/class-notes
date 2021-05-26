@@ -16,7 +16,7 @@ function SchoolScreen({ navigation }) {
   // dropdown info
   const [modalVisible, setModalVisible] = useState(false);
   const [seasonValue, setSeasonValue] = useState('');
-  const [yearValue, setYearValue] = useState('');
+  const [yearValue, setYearValue] = useState((new Date()).getFullYear()); // default to this year
 
   const date = new Date();
   let curYear = date.getFullYear();
@@ -26,11 +26,14 @@ function SchoolScreen({ navigation }) {
   }
 
   const handleTermSubmit = (season, year) => {
-    setSeasonValue('');
-    setYearValue('');
-    addTerm(curSchool, season + ' ' + year);
+    console.log(yearValue, seasonValue);
+    addTerm(curSchool, seasonValue + ' ' + yearValue);
     setModalVisible(!modalVisible);
+    setSeasonValue('');
+    setYearValue((new Date()).getFullYear());
   };
+
+  console.log(yearValue, seasonValue);
 
   return (
     /* list of terms with ability to scroll */
@@ -63,7 +66,7 @@ function SchoolScreen({ navigation }) {
           visible={modalVisible}
           onRequestClose={() => setModalVisible(!modalVisible)}
         >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccccccef' }}>
             <Text style={{ color: 'black', fontFamily: "sans-serif", fontSize: 20 }}>Select Season and Year</Text>
             <View style={{ width: 330, height: 100, borderColor: 'black', borderWidth: 5, }} >
               {/* Seasons */}
@@ -98,8 +101,7 @@ function SchoolScreen({ navigation }) {
               Close</Button>
             <Button
               title='Submit'
-              onPress={() =>
-                handleTermSubmit(seasonValue, yearValue)}
+              onPress={() => handleTermSubmit()}
               labelStyle={{ color: 'white' }}
               style={{ backgroundColor: "rgb(98,0,238)", width: '40%', alignSelf: 'flex-end', bottom: 37.5, right: 40, }} >
               Submit</Button>
