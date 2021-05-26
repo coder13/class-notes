@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, Modal, View } from 'react-native';
-import { FAB, Button, TextInput } from 'react-native-paper';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { FAB, Button } from 'react-native-paper';
+// import DropDownPicker from 'react-native-dropdown-picker';
+import { Picker } from '@react-native-picker/picker';
 
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
@@ -12,28 +13,22 @@ function SchoolScreen({ navigation }) {
   const { state, dispatch } = useContext(SchoolsContext);
   const curSchool = state.currentSchool;
 
-  const [text, setText] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-
   // dropdown info
-  const [seasonOpen, setSeasonOpen] = useState(false);
-  const [seasonValue, setSeasonValue] = useState(null);
-  const [seasonItems, setSeasonItems] = useState([
-    { label: 'Winter', value: 'Winter', },
-    { label: 'Spring', value: 'Spring' },
-    { label: 'Summer', value: 'Summer' },
-    { label: 'Fall', value: 'Fall' },
-  ])
+  const [modalVisible, setModalVisible] = useState(false);
+  const [seasonValue, setSeasonValue] = useState('');
+  const [yearValue, setYearValue] = useState('');
+
+  const date = new Date();
+  let curYear = date.getFullYear();
 
   function addTerm(school, termName) {
     dispatch({ type: 'addTerm', school, termName })
   }
 
-  const handleTermSubmit = (name) => {
-    setText('');
-    if (name != '') {
-      addTerm(curSchool, name);
-    }
+  const handleTermSubmit = (season, year) => {
+    setSeasonValue('');
+    setYearValue('');
+    addTerm(curSchool, season + ' ' + year);
     setModalVisible(!modalVisible);
   };
 
@@ -50,7 +45,6 @@ function SchoolScreen({ navigation }) {
               labelStyle={styles.buttonText}
               style={styles.button}
               key={terms.termName} label={terms.termName}
-              // UPDATE onPress TO WORK DYNAMICALLY
               onPress={() => navigation.navigate("term", {
                 screen: "term",
                 params: { path: curSchool + '/' + terms.termName }
@@ -70,36 +64,45 @@ function SchoolScreen({ navigation }) {
           onRequestClose={() => setModalVisible(!modalVisible)}
         >
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-            <View style={{ width: 300, height: 100, }} >
-              {/* 
-              <DropDownPicker
-                open={seasonOpen}
-                onPress={() => setSeasonOpen(!seasonOpen)}
-                items={seasonItems}
-                value={seasonValue}
-                onChangeValue={seasonValue => setSeasonValue(seasonValue)}
-                setValue={seasonValue => setSeasonValue(seasonValue)}
-                closeAfterSelecting={true}
-                placeholder="Season"
-              />*/}
-              <TextInput
-                label="Add New Term"
-                value={text}
-                onChangeText={text => setText(text)} />
-              <Button
-                title='Close'
-                onPress={() => setModalVisible(!modalVisible)}
-                labelStyle={{ color: 'white' }}
-                style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
-                Close</Button>
-              <Button
-                title='Submit'
-                onPress={() =>
-                  handleTermSubmit(text)}
-                labelStyle={{ color: 'white' }}
-                style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
-                Submit</Button>
+            <Text style={{ color: 'black', fontFamily: "sans-serif", fontSize: 20 }}>Select Season and Year</Text>
+            <View style={{ width: 330, height: 100, borderColor: 'black', borderWidth: 5, }} >
+              {/* Seasons */}
+              <Picker
+                selectedValue={seasonValue}
+                onValueChange={(itemValue) => setSeasonValue(itemValue)}
+                style={{ height: 100, width: 150, }}
+              >
+                <Picker.Item label="Winter" value="Winter" />
+                <Picker.Item label="Spring" value="Spring" />
+                <Picker.Item label="Summer" value="Summer" />
+                <Picker.Item label="Fall" value="Fall" />
+              </Picker>
+
+              <Picker
+                selectedValue={yearValue}
+                onValueChange={(itemValue) => setYearValue(itemValue)}
+                style={{ height: 100, width: 150, left: 170, bottom: 100 }}
+              >
+                <Picker.Item label='2021' value='2021' />
+                <Picker.Item label='2020' value='2020' />
+                <Picker.Item label='2019' value='2019' />
+                <Picker.Item label='2018' value='2018' />
+              </Picker>
+
             </View>
+            <Button
+              title='Close'
+              onPress={() => setModalVisible(!modalVisible)}
+              labelStyle={{ color: 'white' }}
+              style={{ backgroundColor: "rgb(98,0,238)", width: '40%', alignSelf: 'flex-start', left: 40, }} >
+              Close</Button>
+            <Button
+              title='Submit'
+              onPress={() =>
+                handleTermSubmit(seasonValue, yearValue)}
+              labelStyle={{ color: 'white' }}
+              style={{ backgroundColor: "rgb(98,0,238)", width: '40%', alignSelf: 'flex-end', bottom: 37.5, right: 40, }} >
+              Submit</Button>
           </View>
 
         </Modal>
@@ -110,10 +113,10 @@ function SchoolScreen({ navigation }) {
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => setModalVisible(true) /*addTerm(curSchool, 'Winter 2021')*/}
+        onPress={() => setModalVisible(true)}
       />
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 } // end TermSelection
 

@@ -72,23 +72,24 @@ function TermScreen({ navigation }) {
             onRequestClose={() => setModalVisible(!modalVisible)}
           >
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-              <View style={{ width: 300, height: 100, }} >
+              <View style={{ width: 330, height: 100, }} >
                 <TextInput
                   label="Add New Class"
                   value={text}
-                  onChangeText={text => setText(text)} />
+                  onChangeText={text => setText(text)}
+                  style={{ borderColor: 'black', borderWidth: 5, }} />
                 <Button
                   title='Close'
                   onPress={() => setModalVisible(!modalVisible)}
                   labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', alignSelf: 'flex-start' }} >
                   Close</Button>
                 <Button
                   title='Submit'
                   onPress={() =>
                     handleClassSubmit(text)}
                   labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', bottom: 38, alignSelf: 'flex-end' }} >
                   Submit</Button>
               </View>
             </View>
