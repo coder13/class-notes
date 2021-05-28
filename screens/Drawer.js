@@ -4,10 +4,13 @@ import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import { Drawer as ReactNativePaperDrawer, Button, TextInput } from 'react-native-paper';
 
 import { SchoolsContext } from "./SchoolsProvider";
+import { ThemeContext } from './ThemeController';
 
 function DrawerContent() {
     const { state, dispatch } = useContext(SchoolsContext);
     const [text, setText] = useState('');
+
+    const { theme } = useContext(ThemeContext);
 
     const handleSchoolSubmit = (name) => {
         setText('');
@@ -25,15 +28,15 @@ function DrawerContent() {
     }
 
     return (
-        <DrawerContentScrollView>
+        <DrawerContentScrollView style={{ backgroundColor: theme.backgroundColor }}>
             <View>
                 <ReactNativePaperDrawer.Section>
                     {state.schools.map((school) => (
-                        <DrawerItem key={school.name} label={school.name} onPress={() => setSchool(school.name)} />
+                        <DrawerItem labelStyle={{ color: theme.textColor }} key={school.name} label={school.name} onPress={() => setSchool(school.name)} />
                     ))}
                 </ReactNativePaperDrawer.Section>
                 <ReactNativePaperDrawer.Section>
-                    <TextInput label="Add New School" value={text} onChangeText={text => setText(text)} onEndEditing={() => handleSchoolSubmit(text)} />
+                    <TextInput labelStyle={{ color: theme.textColor }} style={{ backgroundColor: theme.drawerAddColor }} label="Add New School" value={text} onChangeText={text => setText(text)} onEndEditing={() => handleSchoolSubmit(text)} />
                 </ReactNativePaperDrawer.Section>
             </View>
         </DrawerContentScrollView>

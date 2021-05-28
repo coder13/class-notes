@@ -6,12 +6,16 @@ const themes = {
         backgroundCard: '#25282c',
         color: 'white',
         buttonColor: 'grey',
+        textColor: 'white',
+        drawerAddColor: 'grey',
     },
     light: {
         backgroundColor: 'white',
         backgroundCard: '#fff',
         color: 'black',
         buttonColor: '#007aff',
+        textColor: 'black',
+        drawerAddColor: 'white'
     }
 };
 

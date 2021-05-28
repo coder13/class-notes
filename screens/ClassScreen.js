@@ -76,7 +76,7 @@ function ClassScreen({ navigation }) {
             visible={modalVisible}
             onRequestClose={() => setModalVisible(!modalVisible)}
           >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccccccef' }}>
               <View style={{ width: 330, height: 100, }} >
                 <TextInput
                   label="Add New Lecture"
