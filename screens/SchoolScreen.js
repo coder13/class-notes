@@ -15,7 +15,7 @@ function SchoolScreen({ navigation }) {
 
   // dropdown info
   const [modalVisible, setModalVisible] = useState(false);
-  const [seasonValue, setSeasonValue] = useState('');
+  const [seasonValue, setSeasonValue] = useState('Spring');
   const [yearValue, setYearValue] = useState((new Date()).getFullYear()); // default to this year
 
   const date = new Date();
@@ -26,14 +26,11 @@ function SchoolScreen({ navigation }) {
   }
 
   const handleTermSubmit = (season, year) => {
-    console.log(yearValue, seasonValue);
     addTerm(curSchool, seasonValue + ' ' + yearValue);
     setModalVisible(!modalVisible);
     setSeasonValue('');
     setYearValue((new Date()).getFullYear());
   };
-
-  console.log(yearValue, seasonValue);
 
   return (
     /* list of terms with ability to scroll */

@@ -51,7 +51,10 @@ function ClassScreen({ navigation }) {
                       <Button
                         mode="text"
                         uppercase=""
-                        onPress={() => navigation.navigate("editnote")}
+                        onPress={() => navigation.navigate("editnote", {
+                          screen: 'editnote',
+                          params: { path: path + '/' + lecture.id }
+                        })}
                         key={lecture.title}
                         label={lecture.title}
                         labelStyle={styles.buttonText}

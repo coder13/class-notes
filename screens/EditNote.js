@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef } from 'react';
 import { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, TextInput as BasicTextInput } from 'react-native';
 import { Appbar, TextInput, IconButton } from 'react-native-paper';
+import { useRoute } from '@react-navigation/native';
 import { SchoolsContext } from './SchoolsProvider';
 
 const styles = StyleSheet.create({
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
   },
   contentInput: {
     flex: 1,
+    margin: 4,
   },
   iconBar: {
     flexDirection: 'row',
@@ -24,14 +26,43 @@ const styles = StyleSheet.create({
 })
 
 function EditNoteScreen({ navigation }) {
-  const { state } = useContext(SchoolsContext);
+  const { state, dispatch } = useContext(SchoolsContext);
   const contentInputRef = useRef();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const route = useRoute();
+
+  const path = route.params.params.path.split('/');
+  const curTerm = path[1];
+  const curClass = path[2];
+  const curLecture = path[3];
+  const curSchool = state.currentSchool;
+
+  const school = state.schools.find((s) => s.name === curSchool);
+  const term = school.terms.find((t) => t.termName === curTerm);
+  const c = term.classes.find((c) => c.code === curClass);
+  const lecture = c.lectures.find((l) => l.id == curLecture);
+
+  const [title, setTitle] = useState(lecture.title);
+  const [content, setContent] = useState(lecture.content);
+
+  // update state everytime data changes
+  useEffect(() => {
+    dispatch({
+      type: 'updateLecture',
+      school: school.name,
+      termName: term.termName,
+      className: c.code,
+      lecture: {
+        id: lecture.id,
+        title,
+        content,
+      },
+    });
+  }, [title, content])
+
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput flat label="title" style={styles.titleInput} />
+      <TextInput flat label="title" value={title} onChangeText={text => setTitle(text)} style={styles.titleInput} />
       <View style={styles.contentContainer}>
         <BasicTextInput
           ref={contentInputRef}
@@ -39,6 +70,8 @@ function EditNoteScreen({ navigation }) {
           flat
           multiline
           dense
+          value={content}
+          onChangeText={setContent}
         />
       </View>
       <Appbar style={styles.iconBar}>

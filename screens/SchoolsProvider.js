@@ -9,6 +9,7 @@ const initialState = {
 const SchoolsContext = createContext();
 
 function schoolReducer(state, action) {
+    console.log(action);
     switch (action.type) {
         case 'setSchool':
             return {
@@ -85,7 +86,7 @@ function schoolReducer(state, action) {
                                             {
                                                 id: 1,
                                                 title: action.lectureTitle,
-                                                content: 'content'
+                                                content: ''
                                             }
                                         ]
                                     } : classes
@@ -100,6 +101,28 @@ function schoolReducer(state, action) {
                 ...state,
                 schools: action.schools,
                 currentSchool: action.schools.length ? action.schools[0].name : ''
+            }
+        case 'updateLecture':
+            return {
+                ...state,
+                schools: state.schools.map((school) => (
+                    action.school === school.name ? {
+                        ...school,
+                        terms: school.terms.map((term) => (
+                            action.termName === term.termName ? {
+                                ...term,
+                                classes: term.classes.map((classes) => (
+                                    action.className === classes.code ? {
+                                        ...classes,
+                                        lectures: classes.lectures.map(lecture => (
+                                            (lecture.id == action.lecture.id) ? action.lecture : lecture)
+                                        )
+                                    } : classes
+                                ))
+                            } : term
+                        ))
+                    } : school
+                ))
             }
 
         default:
