@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Modal } from 'react-native';
-import { FAB, Button, TextInput } from 'react-native-paper';
+import { FAB, Button, TextInput, List } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 
 import { ThemeContext } from './ThemeController';
@@ -48,7 +48,7 @@ function ClassScreen({ navigation }) {
                 term.classes.map((classes) => (
                   classes.code === curClass ? (
                     classes.lectures.map((lecture) => (
-                      <Button
+                      <List.Item
                         mode="text"
                         uppercase=""
                         onPress={() => navigation.navigate("editnote", {
@@ -58,8 +58,9 @@ function ClassScreen({ navigation }) {
                         key={lecture.title}
                         label={lecture.title}
                         labelStyle={styles.buttonText}
-                        style={styles.button}
-                      > {lecture.title} </Button>
+                        title={lecture.title}
+                        description={new Date().toLocaleDateString()}
+                      />
                     ))) : null
                 ))) : null
             ))) : null
@@ -114,19 +115,6 @@ function ClassScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    width: 250,
-    backgroundColor: "rgb(98,0,238)",
-    marginTop: 75,
-    alignSelf: 'center',
-  },
-  buttonText: {
-    color: "white",
-    fontFamily: "sans-serif",
-    fontSize: 24,
-    textAlign: 'center',
-    marginTop: 10,
-  },
   container: {
     flex: 1,
     alignItems: 'center',
