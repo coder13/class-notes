@@ -154,14 +154,6 @@ function SchoolScreen({ navigation }) {
           icon="plus"
           onPress={() => setModalVisible(true)}
         />
-
-        {/* Back Button */}
-        <FAB
-          style={styles.fab_back}
-          icon="arrow-left"
-          onPress={() => navigation.goBack()}
-        />
-
       </SafeAreaView >
     );
   } // end TermSelection
@@ -190,13 +182,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     marginBottom: 50,
-    marginRight: 10,
-  },
-  fab_back: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    marginTop: 50,
     marginRight: 10,
   },
 });
