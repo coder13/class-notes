@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from 'react';
 import { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, TextInput as BasicTextInput } from 'react-native';
-import { Appbar, TextInput, IconButton } from 'react-native-paper';
+import { Appbar, TextInput, IconButton, FAB } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { SchoolsContext } from './SchoolsProvider';
 
@@ -22,7 +22,14 @@ const styles = StyleSheet.create({
   iconBar: {
     flexDirection: 'row',
     backgroundColor: 'white',
-  }
+  },
+  fab_back: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    marginTop: 50,
+    marginRight: 10,
+  },
 })
 
 function EditNoteScreen({ navigation }) {
@@ -81,6 +88,14 @@ function EditNoteScreen({ navigation }) {
         <Appbar.Action icon="format-indent-decrease" />
         <Appbar.Action icon="format-indent-increase" />
       </Appbar>
+
+      {/* Back Button */}
+      <FAB
+        style={styles.fab_back}
+        icon="arrow-left"
+        onPress={() => navigation.goBack()}
+      />
+
     </SafeAreaView>
   );
 }
