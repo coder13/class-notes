@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Class-Notes",
+    "icon": "",
+    "version": "1.0.0",
+    "slug": "class-notes",
+    "ios": {
+      "bundleIdentifier": "com.coder13.classnotes",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.coder13.classnotes",
+      "versionCode": 1
+    },
+    "description": ""
+  }
+}

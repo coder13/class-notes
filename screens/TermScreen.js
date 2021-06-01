@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Modal } from 'react-native';
 import { FAB, Button, TextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
-
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
 
@@ -11,6 +10,7 @@ function TermScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const { state, dispatch } = useContext(SchoolsContext);
   const route = useRoute();
+  //console.log(route);
 
   // path info
   const temp = route.params;
@@ -30,9 +30,7 @@ function TermScreen({ navigation }) {
 
   const handleClassSubmit = (name) => {
     setText('');
-    if (name != '') {
-      addClass(curSchool, curTerm, name);
-    }
+    addClass(curSchool, curTerm, name); // change for better adding
     setModalVisible(!modalVisible);
   }
 
@@ -44,52 +42,50 @@ function TermScreen({ navigation }) {
 
           {state.schools.map((school) => (
             school.name === curSchool ? (school.terms.map((terms) => (
-              terms.termName === curTerm ? (
-                terms.classes.map((classes) => (
-                  <Button
-                    mode="text"
-                    uppercase=""
-                    onPress={() => navigation.navigate('class', {
-                      screen: 'class',
-                      params: { path: path + '/' + classes.code }
-                    })}
-                    key={classes.code}
-                    label={classes.code}
-                    labelStyle={styles.buttonText}
-                    style={styles.button}
-                  > {classes.code} </Button>
-                ))) : null
+              terms.classes.map((classes) => (
+                <Button
+                  mode="text"
+                  uppercase=""
+                  onPress={() => navigation.navigate("class", {
+                    screen: 'class',
+                    params: { path: path + '/' + classes.code }
+                  })}
+                  key={classes.code}
+                  label={classes.code}
+                  labelStyle={styles.buttonText}
+                  style={styles.button}
+                > {classes.code} </Button>
+              ))
             ))) : null
           ))}
         </ScrollView>
 
         {/* popup for text input */}
-        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
           <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
             animationType='slide'
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => setModalVisible(!modalVisible)}
           >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccccccef' }}>
-              <View style={{ width: 330, height: 100, }} >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+              <View style={{ width: 300, height: 100, }} >
                 <TextInput
                   label="Add New Class"
                   value={text}
-                  onChangeText={text => setText(text)}
-                  style={{ borderColor: 'black', borderWidth: 5, }} />
+                  onChangeText={text => setText(text)} />
                 <Button
                   title='Close'
                   onPress={() => setModalVisible(!modalVisible)}
                   labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', alignSelf: 'flex-start' }} >
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
                   Close</Button>
                 <Button
                   title='Submit'
                   onPress={() =>
                     handleClassSubmit(text)}
                   labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', bottom: 38, alignSelf: 'flex-end' }} >
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
                   Submit</Button>
               </View>
             </View>
@@ -129,10 +125,8 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: 0,
-    right: 0,
-    marginBottom: 50,
-    marginRight: 10,
+    top: 650,
+    right: 20,
   },
 });
 

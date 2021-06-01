@@ -1,16 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Modal } from 'react-native';
-import { FAB, Button, TextInput, List } from 'react-native-paper';
+import { FAB, Button, TextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
-
 import { ThemeContext } from './ThemeController';
 import { SchoolsContext } from './SchoolsProvider';
+
 
 
 function ClassScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const { state, dispatch } = useContext(SchoolsContext);
   const route = useRoute();
+  //console.log(route);
 
   // path info
   const temp = route.params;
@@ -30,9 +31,7 @@ function ClassScreen({ navigation }) {
 
   const handleLectureSubmit = (name) => {
     setText('');
-    if (name != '') {
-      addLecture(curSchool, curTerm, curClass, name);
-    }
+    addLecture(curSchool, curTerm, curClass, name); // change for better adding
     setModalVisible(!modalVisible);
   }
 
@@ -44,57 +43,58 @@ function ClassScreen({ navigation }) {
 
           {state.schools.map((school) => (
             school.name === curSchool ? (school.terms.map((term) => (
-              term.termName === curTerm ? (
-                term.classes.map((classes) => (
-                  classes.code === curClass ? (
-                    classes.lectures.map((lecture) => (
-                      <List.Item
-                        mode="text"
-                        uppercase=""
-                        onPress={() => navigation.navigate("editnote", {
-                          screen: 'editnote',
-                          params: { path: path + '/' + lecture.id }
-                        })}
-                        key={lecture.title}
-                        label={lecture.title}
-                        labelStyle={styles.buttonText}
-                        title={lecture.title}
-                        description={new Date().toLocaleDateString()}
-                      />
-                    ))) : null
-                ))) : null
+              term.classes.map((classes) => (
+                classes.lectures.map((lecture) => (
+                  <Button
+                    mode="text"
+                    uppercase=""
+                    onPress={() => navigation.navigate("editnote")}
+                    key={lecture.title}
+                    label={lecture.title}
+                    labelStyle={styles.buttonText}
+                    style={styles.button}
+                  > {lecture.title} </Button>
+                ))
+              ))
             ))) : null
           ))}
 
+
+          {/* 
+          <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
+            Lecture 1
+          </Button>
+          <Button mode="text" uppercase="" onPress={() => navigation.navigate("editnote")} labelStyle={styles.buttonText} style={styles.button} >
+            Lecture 2
+          </Button>*/}
         </ScrollView>
 
         {/* popup for text input */}
-        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
           <Modal style={{ width: 100, height: 100, justifyContent: 'center' }}
             animationType='slide'
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => setModalVisible(!modalVisible)}
           >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccccccef' }}>
-              <View style={{ width: 330, height: 100, }} >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+              <View style={{ width: 300, height: 100, }} >
                 <TextInput
-                  label="Add New Lecture"
+                  label="Add New Class"
                   value={text}
-                  onChangeText={text => setText(text)}
-                  style={{ borderColor: 'black', borderWidth: 5, }} />
+                  onChangeText={text => setText(text)} />
                 <Button
                   title='Close'
                   onPress={() => setModalVisible(!modalVisible)}
                   labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', alignSelf: 'flex-start' }} >
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', }} >
                   Close</Button>
                 <Button
                   title='Submit'
                   onPress={() =>
                     handleLectureSubmit(text)}
                   labelStyle={{ color: 'white' }}
-                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', bottom: 38, alignSelf: 'flex-end' }} >
+                  style={{ backgroundColor: "rgb(98,0,238)", width: '50%', left: 150, bottom: 38 }} >
                   Submit</Button>
               </View>
             </View>
@@ -115,16 +115,27 @@ function ClassScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    width: 250,
+    backgroundColor: "rgb(98,0,238)",
+    marginTop: 75,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    color: "white",
+    fontFamily: "sans-serif",
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
   },
   fab: {
     position: 'absolute',
-    bottom: 0,
-    right: 0,
-    marginBottom: 50,
-    marginRight: 10,
+    top: 650,
+    right: 20,
   },
 });
 
